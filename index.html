@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Swing UI Framework</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.js"></script>
+    <link href="/assets/css/jsui.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- Menu Bar -->
+    <div x-data="{
+        activeMenu: null,
+        menuItems: {
+            'File': ['New', 'Open', 'Save', 'Exit'],
+            'Edit': ['Cut', 'Copy', 'Paste', 'Delete'],
+            'View': ['Project Explorer', 'Problems', 'Console'],
+            'Help': ['Documentation', 'About']
+        }
+    }" @click.outside="activeMenu = null">
+        <div class="swing-menubar swing-flex">
+            <template x-for="(items, menu) in menuItems" :key="menu">
+                <div class="swing-menu-container">
+                    <a href="#" class="swing-menu" :class="{ 'active': activeMenu === menu }"
+                        @click.prevent="activeMenu = (activeMenu === menu ? null : menu)" x-text="menu">
+                    </a>
+                    <div class="swing-menu-dropdown" x-show="activeMenu === menu" @click="activeMenu = null">
+                        <template x-for="item in items" :key="item">
+                            <a href="#" class="swing-menu-item" x-text="item" @click="console.log(`Clicked: ${item}`)">
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="swing-flex" style="padding: var(--swing-spacing-lg)">
+        <!-- Left Sidebar -->
+        <div style="width: 250px; margin-right: var(--swing-spacing-lg)">
+
+            <!-- Project Explorer -->
+            <div x-data="{
+                nodes: [
+                    {
+                        id: 1,
+                        name: 'MyProject',
+                        expanded: true,
+                        children: [
+                            {
+                                id: 2,
+                                name: 'src',
+                                expanded: false,
+                                children: []
+                            },
+                            {
+                                id: 3,
+                                name: 'resources',
+                                expanded: true,
+                                selected: true,
+                                children: [
+                                    {
+                                        id: 4,
+                                        name: 'config.xml',
+                                        children: []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                toggleNode(node) {
+                    node.expanded = !node.expanded;
+                },
+                selectNode(node) {
+                    this.nodes.forEach(n => this.clearSelection(n));
+                    node.selected = true;
+                },
+                clearSelection(node) {
+                    node.selected = false;
+                    node.children?.forEach(child => this.clearSelection(child));
+                }
+            }">
+                <div class="swing-window">
+                    <div class="swing-title-bar">
+                        <span class="swing-title">Project Explorer</span>
+                    </div>
+                    <div class="swing-tree">
+                        <template x-for="node in nodes" :key="node.id">
+                            <div>
+                                <div class="tree-node" :class="{ 'selected': node.selected }" @click="selectNode(node)">
+                                    <span class="tree-toggle" x-show="node.children.length"
+                                        x-text="node.expanded ? '-' : '+'" @click.stop="toggleNode(node)">
+                                    </span>
+                                    <span x-text="node.name"></span>
+                                </div>
+                                <template x-if="node.expanded">
+                                    <div style="padding-left: 20px">
+                                        <template x-for="child in node.children" :key="child.id">
+                                            <div>
+                                                <div class="tree-node" :class="{ 'selected': child.selected }"
+                                                    @click="selectNode(child)">
+                                                    <span class="tree-toggle" x-show="child.children.length"
+                                                        x-text="child.expanded ? '-' : '+'"
+                                                        @click.stop="toggleNode(child)">
+                                                    </span>
+                                                    <span x-text="child.name"></span>
+                                                </div>
+                                                <template x-if="child.expanded">
+                                                    <div style="padding-left: 20px">
+                                                        <template x-for="subChild in child.children" :key="subChild.id">
+                                                            <div class="tree-node"
+                                                                :class="{ 'selected': subChild.selected }"
+                                                                @click="selectNode(subChild)">
+                                                                <span x-text="subChild.name"></span>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div style="flex: 1">
+            <!-- Basic Controls Window -->
+            <div class="swing-window">
+                <div class="swing-title-bar">
+                    <span class="swing-title">Basic Controls</span>
+                </div>
+                <div x-data="{ activeTab: 'form' }">
+                    <div class="swing-tabs">
+                        <div class="swing-tab" :class="{ 'active': activeTab === 'form' }" @click="activeTab = 'form'">
+                            Form Controls
+                        </div>
+                        <div class="swing-tab" :class="{ 'active': activeTab === 'inputs' }"
+                            @click="activeTab = 'inputs'">
+                            Inputs
+                        </div>
+                        <div class="swing-tab" :class="{ 'active': activeTab === 'progress' }"
+                            @click="activeTab = 'progress'">
+                            Progress
+                        </div>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div x-show="activeTab === 'form'">Form Controls Content</div>
+                    <div x-show="activeTab === 'inputs'">Inputs Content</div>
+                    <div x-show="activeTab === 'progress'">Progress Content</div>
+                </div>
+
+                <div class="swing-toolbar">
+                    <button class="swing-button">New</button>
+                    <button class="swing-button">Open</button>
+                    <button class="swing-button">Save</button>
+                    <div class="toolbar-separator"></div>
+                    <button class="swing-button">Cut</button>
+                    <button class="swing-button">Copy</button>
+                    <button class="swing-button">Paste</button>
+                </div>
+
+                <div style="padding: var(--swing-spacing-lg)">
+                    <!-- Form Controls -->
+                    <div class="swing-panel">
+                        <h6>Input Controls:</h6>
+                        <div style="margin: var(--swing-spacing-md) 0">
+                            <label>Text Input:</label>
+                            <input type="text" class="swing-form-control" />
+                        </div>
+                        <div style="margin: var(--swing-spacing-md) 0">
+                            <label>Combo Box:</label>
+                            <div class="swing-combo">
+                                <select>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: var(--swing-spacing-md) 0">
+                            <label>Spinner:</label>
+                            <div x-data="{ 
+                                value: 100,
+                                step: 1,
+                                min: 0,
+                                max: 999,
+                                increment() {
+                                    this.value = Math.min(this.max, Number(this.value) + this.step);
+                                },
+                                decrement() {
+                                    this.value = Math.max(this.min, Number(this.value) - this.step);
+                                },
+                                validateInput() {
+                                    this.value = Math.max(this.min, Math.min(this.max, Number(this.value) || this.min));
+                                }
+                            }" class="swing-spinner">
+                                <input type="text" class="swing-spinner-input" x-model="value" @blur="validateInput"
+                                    @keydown.up.prevent="increment" @keydown.down.prevent="decrement" />
+                                <div class="swing-spinner-buttons">
+                                    <div class="swing-spinner-button" @click="increment">▲</div>
+                                    <div class="swing-spinner-button" @click="decrement">▼</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin: var(--swing-spacing-md) 0">
+                            <label>Slider:</label>
+                            <div class="swing-slider" x-data="{ 
+            value: 60,
+            isDragging: false,
+            startDragging(e) {
+                this.isDragging = true;
+                this.$refs.thumb.style.transition = 'none';
+            },
+            stopDragging() {
+                this.isDragging = false;
+                this.$refs.thumb.style.transition = '';
+            },
+            drag(e) {
+                if (!this.isDragging) return;
+                const rect = this.$el.getBoundingClientRect();
+                const x = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - rect.left;
+                this.value = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            }
+         }" @mouseup.window="stopDragging" @mousemove.window="drag" @touchend.window="stopDragging"
+                                @touchmove.window="drag">
+                                <div class="swing-slider-track"></div>
+                                <div class="swing-slider-thumb" x-ref="thumb" :style="{ left: `${value}%` }"
+                                    @mousedown="startDragging" @touchstart="startDragging"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bars -->
+                    <div class="swing-panel">
+                        <h6>Progress Bars:</h6>
+                        <div class="swing-progress" style="margin-bottom: var(--swing-spacing-md)">
+                            <div class="swing-progress-bar" style="width: 60%"></div>
+                        </div>
+                        <div class="swing-progress">
+                            <div class="swing-progress-bar swing-progress-indeterminate"></div>
+                        </div>
+                    </div>
+
+                    <!-- Split Panel -->
+                    <div class="swing-splitpane" style="height: 200px">
+                        <div class="swing-splitpane-panel">Left Panel</div>
+                        <div class="swing-divider swing-divider-horizontal"></div>
+                        <div class="swing-splitpane-panel">Right Panel</div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Tables and Lists -->
+            <div class="swing-window" style="margin-top: var(--swing-spacing-lg)">
+                <div class="swing-title-bar">
+                    <span class="swing-title">Data Components</span>
+                </div>
+                <div style="padding: var(--swing-spacing-lg)">
+                    <table class="swing-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>Engineering</td>
+                                <td>
+                                    <button class="swing-button">Edit</button>
+                                    <button class="swing-button">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="selected">
+                                <td>2</td>
+                                <td>Jane Smith</td>
+                                <td>Design</td>
+                                <td>
+                                    <button class="swing-button">Edit</button>
+                                    <button class="swing-button">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div style="width: 300px; margin-left: var(--swing-spacing-lg)" x-data="{
+            currentPath: 'C:\\Users\\Documents',
+            selectedSidebarItem: 'Documents',
+            selectedFile: 'Document.txt',
+            sidebarItems: ['Desktop', 'Documents', 'Downloads'],
+            files: [
+                { name: 'Project Files', type: 'folder' },
+                { name: 'Document.txt', type: 'file' },
+                { name: 'Report.pdf', type: 'file' }
+            ]
+        }">
+            <div class="swing-window">
+                <div class="swing-title-bar">
+                    <span class="swing-title">File Browser</span>
+                </div>
+                <div class="swing-file-chooser">
+                    <div class="location-bar" x-text="currentPath"></div>
+
+                    <div class="file-chooser-sidebar">
+                        <template x-for="item in sidebarItems" :key="item">
+                            <div class="file-item" :class="{ 'selected': selectedSidebarItem === item }"
+                                @click="selectedSidebarItem = item">
+                                <span x-text="item"></span>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="file-chooser-main">
+                        <template x-for="file in files" :key="file.name">
+                            <div class="file-item" :class="{ 'selected': selectedFile === file.name }"
+                                @click="selectedFile = file.name">
+                                <span x-text="(file.type === 'folder' ? '📁 ' : '📄 ') + file.name"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div x-data="{ dialog: { isOpen: false, type: 'info', title: '', message: '' } }">
+        <!-- Trigger buttons -->
+        <button class="swing-button"
+            @click="dialog = { isOpen: true, type: 'info', title: 'Information', message: 'This is an informational message.' }">
+            Show Info
+        </button>
+        <button class="swing-button"
+            @click="dialog = { isOpen: true, type: 'success', title: 'Success', message: 'Operation completed successfully!' }">
+            Show Success
+        </button>
+        <button class="swing-button"
+            @click="dialog = { isOpen: true, type: 'warning', title: 'Warning', message: 'Are you sure you want to proceed?' }">
+            Show Warning
+        </button>
+        <button class="swing-button"
+            @click="dialog = { isOpen: true, type: 'danger', title: 'Error', message: 'An error has occurred during the operation.' }">
+            Show Error
+        </button>
+
+        <!-- Dialog -->
+        <div class="swing-dialog-overlay" x-show="dialog.isOpen" x-transition @click="dialog.isOpen = false"
+            style="display: none;">
+            <div class="swing-dialog" @click.stop :data-type="dialog.type">
+                <div class="swing-title-bar">
+                    <span class="swing-title" x-text="dialog.title"></span>
+                </div>
+                <div class="swing-dialog-content">
+                    <div x-text="dialog.message"></div>
+                </div>
+                <div class="swing-dialog-buttons">
+                    <button class="swing-button" @click="dialog.isOpen = false">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

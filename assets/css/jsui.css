@@ -1,0 +1,929 @@
+/* ==========================================================================
+   1. Theme Variables
+   ========================================================================== */
+
+:root {
+    /* Colors: Primary */
+    --swing-primary: #3399ff;
+    --swing-primary-hover: #2384e6;
+    --swing-primary-active: #1a6dbd;
+
+    /* Colors: Neutral */
+    --swing-bg: #f0f0f0;
+    --swing-text: #333333;
+    --swing-border: #919191;
+    --swing-border-light: #999999;
+    --swing-border-lighter: #dddddd;
+
+    /* Colors: States */
+    --swing-info: #0066cc;
+    --swing-success: #28a745;
+    --swing-warning: #ffc107;
+    --swing-danger: #dc3545;
+
+    /* Colors: Component Specific */
+    --swing-selection-bg: var(--swing-primary);
+    --swing-selection-text: white;
+    --swing-hover-bg: rgba(0, 0, 0, 0.04);
+
+    /* Gradients */
+    --swing-gradient-header: linear-gradient(to bottom, #e9e9e9, #d4d4d4);
+    --swing-gradient-button: linear-gradient(to bottom, #f6f6f6, #e1e1e1);
+    --swing-gradient-button-hover: linear-gradient(to bottom, #e1e1e1, #d1d1d1);
+
+    --swing-gradient-info: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+    --swing-gradient-success: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+    --swing-gradient-warning: linear-gradient(to bottom, #fff3e0, #ffe0b2);
+    --swing-gradient-danger: linear-gradient(to bottom, #ffebee, #ffcdd2);
+
+    /* Typography */
+    --swing-font-family: Tahoma, Arial, sans-serif;
+    --swing-font-size-xs: 10px;
+    --swing-font-size-sm: 11px;
+    --swing-font-size-base: 12px;
+    --swing-font-size-lg: 14px;
+    --swing-line-height: 1.4;
+
+    /* Spacing */
+    --swing-spacing-xxs: 1px;
+    --swing-spacing-xs: 2px;
+    --swing-spacing-sm: 4px;
+    --swing-spacing-md: 8px;
+    --swing-spacing-lg: 16px;
+    --swing-spacing-xl: 24px;
+
+    /* Effects */
+    --swing-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --swing-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    --swing-shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    --swing-border-radius-sm: 2px;
+    --swing-border-radius: 3px;
+    --swing-border-radius-lg: 4px;
+
+    /* Animation */
+    --swing-transition-fast: 150ms ease-in-out;
+    --swing-transition: 250ms ease-in-out;
+    --swing-transition-slow: 350ms ease-in-out;
+
+    /* Component Sizes */
+    --swing-titlebar-height: 28px;
+    --swing-button-height: 22px;
+    --swing-input-height: 22px;
+    --swing-scrollbar-size: 16px;
+    --swing-icon-size: 16px;
+}
+
+/* ==========================================================================
+   2. Reset & Base Styles
+   ========================================================================== */
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base Elements */
+html {
+    font-size: var(--swing-font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: var(--swing-bg);
+    color: var(--swing-text);
+    font-family: var(--swing-font-family);
+    font-size: var(--swing-font-size-base);
+    line-height: var(--swing-line-height);
+    min-height: 100vh;
+}
+
+/* Typography Base */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+}
+
+input,
+select,
+textarea {
+    font: inherit;
+    border: none;
+    background: none;
+}
+
+/* Focus States */
+:focus-visible {
+    outline: 2px solid var(--swing-primary);
+    outline-offset: 1px;
+}
+
+/* Selection */
+::selection {
+    background-color: var(--swing-selection-bg);
+    color: var(--swing-selection-text);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: var(--swing-scrollbar-size);
+    height: var(--swing-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--swing-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--swing-border-light);
+    border: 3px solid var(--swing-bg);
+    border-radius: var(--swing-border-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--swing-border);
+}
+
+/* ==========================================================================
+   3. Layout & Utility Classes
+   ========================================================================== */
+
+/* Flex Utilities */
+.swing-flex {
+    display: flex;
+}
+
+.swing-flex-col {
+    flex-direction: column;
+}
+
+.swing-flex-row {
+    flex-direction: row;
+}
+
+.swing-flex-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.swing-flex-between {
+    justify-content: space-between;
+}
+
+.swing-flex-grow {
+    flex-grow: 1;
+}
+
+.swing-flex-shrink {
+    flex-shrink: 0;
+}
+
+/* Spacing Utilities */
+.swing-p-xs {
+    padding: var(--swing-spacing-xs);
+}
+
+.swing-p-sm {
+    padding: var(--swing-spacing-sm);
+}
+
+.swing-p-md {
+    padding: var(--swing-spacing-md);
+}
+
+.swing-p-lg {
+    padding: var(--swing-spacing-lg);
+}
+
+.swing-m-xs {
+    margin: var(--swing-spacing-xs);
+}
+
+.swing-m-sm {
+    margin: var(--swing-spacing-sm);
+}
+
+.swing-m-md {
+    margin: var(--swing-spacing-md);
+}
+
+.swing-m-lg {
+    margin: var(--swing-spacing-lg);
+}
+
+/* Text Utilities */
+.swing-text-xs {
+    font-size: var(--swing-font-size-xs);
+}
+
+.swing-text-sm {
+    font-size: var(--swing-font-size-sm);
+}
+
+.swing-text-base {
+    font-size: var(--swing-font-size-base);
+}
+
+.swing-text-lg {
+    font-size: var(--swing-font-size-lg);
+}
+
+.swing-text-bold {
+    font-weight: bold;
+}
+
+.swing-text-normal {
+    font-weight: normal;
+}
+
+/* Display Utilities */
+.swing-hidden {
+    display: none;
+}
+
+.swing-block {
+    display: block;
+}
+
+.swing-inline {
+    display: inline;
+}
+
+.swing-inline-block {
+    display: inline-block;
+}
+
+/* Border Utilities */
+.swing-border {
+    border: 1px solid var(--swing-border-light);
+}
+
+.swing-border-top {
+    border-top: 1px solid var(--swing-border-light);
+}
+
+.swing-border-bottom {
+    border-bottom: 1px solid var(--swing-border-light);
+}
+
+/* Background Utilities */
+.swing-bg-white {
+    background-color: white;
+}
+
+.swing-bg-primary {
+    background-color: var(--swing-primary);
+}
+
+.swing-bg-light {
+    background-color: var(--swing-bg);
+}
+
+/* Position Utilities */
+.swing-relative {
+    position: relative;
+}
+
+.swing-absolute {
+    position: absolute;
+}
+
+.swing-fixed {
+    position: fixed;
+}
+
+/* Z-index Utilities */
+.swing-z-0 {
+    z-index: 0;
+}
+
+.swing-z-10 {
+    z-index: 10;
+}
+
+.swing-z-20 {
+    z-index: 20;
+}
+
+.swing-z-max {
+    z-index: 9999;
+}
+
+/* ==========================================================================
+   4. Common Components
+   ========================================================================== */
+
+/* Window */
+.swing-window {
+    background: white;
+    border: 1px solid var(--swing-border);
+    border-radius: var(--swing-border-radius);
+    box-shadow: var(--swing-shadow);
+    margin-bottom: var(--swing-spacing-md);
+}
+
+.swing-title-bar {
+    background: var(--swing-gradient-header);
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    border-bottom: 1px solid var(--swing-border);
+    height: var(--swing-titlebar-height);
+    display: flex;
+    align-items: center;
+}
+
+/* Toolbar */
+.swing-toolbar {
+    background: var(--swing-gradient-button);
+    padding: var(--swing-spacing-xs);
+    border-bottom: 1px solid var(--swing-border-light);
+    display: flex;
+    align-items: center;
+    gap: var(--swing-spacing-xs);
+}
+
+.swing-toolbar-separator {
+    width: 1px;
+    height: var(--swing-icon-size);
+    background: var(--swing-border-light);
+    margin: 0 var(--swing-spacing-sm);
+    border-right: 1px solid white;
+}
+
+/* Buttons */
+.swing-button {
+    background: var(--swing-gradient-button);
+    border: 1px solid var(--swing-border-light);
+    border-radius: var(--swing-border-radius);
+    padding: var(--swing-spacing-xs) var(--swing-spacing-md);
+    height: var(--swing-button-height);
+    font-size: var(--swing-font-size-base);
+    color: var(--swing-text);
+    cursor: pointer;
+    transition: all var(--swing-transition-fast);
+}
+
+.swing-button:hover {
+    background: var(--swing-gradient-button-hover);
+}
+
+.swing-button:active {
+    border-color: var(--swing-border);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.swing-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Tabs */
+.swing-tabs {
+    display: flex;
+    background: var(--swing-bg);
+    padding: var(--swing-spacing-xs) var(--swing-spacing-xs) 0;
+    border-bottom: 1px solid var(--swing-border-light);
+}
+
+.swing-tab {
+    background: var(--swing-gradient-button);
+    border: 1px solid var(--swing-border-light);
+    border-bottom: none;
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    margin: 0 var(--swing-spacing-xs);
+    cursor: pointer;
+    position: relative;
+    top: 1px;
+    transition: all var(--swing-transition-fast);
+}
+
+.swing-tab.active {
+    background: white;
+    border-bottom: 1px solid white;
+    margin-bottom: -1px;
+}
+
+/* ==========================================================================
+   5. Form Controls
+   ========================================================================== */
+
+/* Common Input Styles */
+.swing-input {
+    border: 1px solid var(--swing-border);
+    border-radius: var(--swing-border-radius);
+    height: var(--swing-input-height);
+    padding: var(--swing-spacing-xs) var(--swing-spacing-sm);
+    background: white;
+    width: 100%;
+    transition: border-color var(--swing-transition-fast);
+}
+
+.swing-input:hover {
+    border-color: var(--swing-border-light);
+}
+
+.swing-input:focus {
+    border-color: var(--swing-primary);
+}
+
+/* Combo Box */
+.swing-combo {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+
+.swing-combo select {
+    appearance: none;
+    width: 100%;
+    background: var(--swing-gradient-button);
+    border: 1px solid var(--swing-border);
+    border-radius: var(--swing-border-radius);
+    padding: var(--swing-spacing-xs) var(--swing-spacing-lg) var(--swing-spacing-xs) var(--swing-spacing-sm);
+    cursor: pointer;
+}
+
+.swing-combo::after {
+    content: "▼";
+    position: absolute;
+    right: var(--swing-spacing-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: var(--swing-font-size-xs);
+    color: var(--swing-text);
+}
+
+/* Spinner */
+.swing-spinner {
+    display: inline-flex;
+    border: 1px solid var(--swing-border);
+    border-radius: var(--swing-border-radius);
+    width: 80px;
+    overflow: hidden;
+}
+
+.swing-spinner-input {
+    width: 60px;
+    text-align: right;
+    padding: var(--swing-spacing-xs) var(--swing-spacing-sm);
+    border: none;
+}
+
+.swing-spinner-buttons {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--swing-border);
+    width: var(--swing-icon-size);
+}
+
+.swing-spinner-button {
+    height: 50%;
+    background: var(--swing-gradient-button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: var(--swing-font-size-xs);
+}
+
+.swing-spinner-button:first-child {
+    border-bottom: 1px solid var(--swing-border);
+}
+
+/* Slider */
+.swing-slider {
+    position: relative;
+    height: 20px;
+    width: 200px;
+    padding: var(--swing-spacing-sm) 0;
+}
+
+.swing-slider-track {
+    height: 2px;
+    background: var(--swing-border);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.swing-slider-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--swing-gradient-button);
+    border: 1px solid var(--swing-border);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: background var(--swing-transition-fast);
+}
+
+.swing-slider-thumb:hover {
+    background: var(--swing-gradient-button-hover);
+}
+
+/* Form Group */
+.swing-form-group {
+    margin-bottom: var(--swing-spacing-md);
+}
+
+.swing-form-group label {
+    display: block;
+    margin-bottom: var(--swing-spacing-xs);
+    color: var(--swing-text);
+}
+
+/* Checkbox & Radio */
+.swing-checkbox,
+.swing-radio {
+    display: flex;
+    align-items: center;
+    gap: var(--swing-spacing-sm);
+    cursor: pointer;
+}
+
+.swing-checkbox input,
+.swing-radio input {
+    margin: 0;
+}
+
+/* ==========================================================================
+   6. Tables and Tree Components
+   ========================================================================== */
+
+/* Table */
+.swing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.swing-table th {
+    background: var(--swing-gradient-header);
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    border: 1px solid var(--swing-border-light);
+    text-align: left;
+    font-weight: normal;
+}
+
+.swing-table td {
+    padding: var(--swing-spacing-xs) var(--swing-spacing-md);
+    border: 1px solid var(--swing-border-lighter);
+}
+
+.swing-table tr:nth-child(even) {
+    background: var(--swing-bg);
+}
+
+.swing-table tr:hover {
+    background: var(--swing-hover-bg);
+}
+
+.swing-table tr.selected {
+    background: var(--swing-selection-bg);
+    color: var(--swing-selection-text);
+}
+
+/* Tree View */
+.swing-tree {
+    padding: var(--swing-spacing-sm);
+    background: white;
+    user-select: none;
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    gap: var(--swing-spacing-xs);
+    padding: var(--swing-spacing-xs) var(--swing-spacing-sm);
+    cursor: pointer;
+    border-radius: var(--swing-border-radius-sm);
+    min-height: var(--swing-input-height);
+}
+
+.tree-node:hover {
+    background: var(--swing-hover-bg);
+}
+
+.tree-node.selected {
+    background: var(--swing-selection-bg);
+    color: var(--swing-selection-text);
+}
+
+.tree-toggle {
+    width: var(--swing-icon-size);
+    height: var(--swing-icon-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--swing-gradient-button);
+    border: 1px solid var(--swing-border-light);
+    border-radius: var(--swing-border-radius-sm);
+    cursor: pointer;
+    font-size: var(--swing-font-size-xs);
+    flex-shrink: 0;
+    transition: background var(--swing-transition-fast);
+}
+
+.tree-toggle:hover {
+    background: var(--swing-gradient-button-hover);
+}
+
+.tree-indent {
+    padding-left: var(--swing-spacing-lg);
+}
+
+/* ==========================================================================
+   7. Dialogs and Menus
+   ========================================================================== */
+
+/* Menu Bar */
+.swing-menubar {
+    display: flex;
+    padding: var(--swing-spacing-xs);
+    border-bottom: 1px solid var(--swing-border-light);
+    background: var(--swing-gradient-header);
+}
+
+.swing-menu-container {
+    position: relative;
+}
+
+.swing-menu {
+    padding: var(--swing-spacing-xs) var(--swing-spacing-md);
+    color: var(--swing-text);
+    transition: all var(--swing-transition-fast);
+}
+
+.swing-menu.active,
+.swing-menu:hover {
+    background: var(--swing-selection-bg);
+    color: var(--swing-selection-text);
+}
+
+.swing-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+    background: white;
+    border: 1px solid var(--swing-border-light);
+    box-shadow: var(--swing-shadow);
+    z-index: 100;
+}
+
+.swing-menu-item {
+    display: block;
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    transition: all var(--swing-transition-fast);
+}
+
+.swing-menu-item:hover {
+    background: var(--swing-selection-bg);
+    color: var(--swing-selection-text);
+}
+
+/* Dialog */
+.swing-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.swing-dialog {
+    max-width: 500px;
+    width: 90%;
+    background: var(--swing-bg);
+    border: 1px solid var(--swing-border);
+    border-radius: var(--swing-border-radius);
+    box-shadow: var(--swing-shadow-lg);
+}
+
+.swing-dialog-content {
+    padding: var(--swing-spacing-lg);
+    background: white;
+    min-height: 80px;
+}
+
+.swing-dialog-buttons {
+    padding: var(--swing-spacing-md);
+    background: var(--swing-bg);
+    border-top: 1px solid var(--swing-border-light);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--swing-spacing-sm);
+}
+
+/* Dialog Types */
+.swing-dialog[data-type="info"] .swing-title-bar {
+    background: var(--swing-gradient-info);
+}
+
+.swing-dialog[data-type="success"] .swing-title-bar {
+    background: var(--swing-gradient-success);
+}
+
+.swing-dialog[data-type="warning"] .swing-title-bar {
+    background: var(--swing-gradient-warning);
+}
+
+.swing-dialog[data-type="danger"] .swing-title-bar {
+    background: var(--swing-gradient-danger);
+}
+
+/* ==========================================================================
+   8. File Browser
+   ========================================================================== */
+.swing-file-chooser {
+    padding: var(--swing-spacing-md);
+}
+
+.location-bar {
+    background: white;
+    border: 1px solid var(--swing-border);
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    margin-bottom: var(--swing-spacing-md);
+}
+
+.file-chooser-sidebar,
+.file-chooser-main {
+    border: 1px solid var(--swing-border);
+    background: white;
+}
+
+.file-chooser-sidebar {
+    margin-bottom: var(--swing-spacing-md);
+}
+
+.file-item {
+    padding: var(--swing-spacing-sm) var(--swing-spacing-md);
+    cursor: pointer;
+    transition: all var(--swing-transition-fast);
+}
+
+/* ==========================================================================
+   9. Progress Bar
+   ========================================================================== */
+.swing-progress {
+    height: 18px;
+    border: 1px solid var(--swing-border);
+    background: white;
+    border-radius: var(--swing-border-radius);
+    overflow: hidden;
+}
+
+.swing-progress-bar {
+    height: 100%;
+    background: repeating-linear-gradient(45deg,
+            #99c1f1,
+            #99c1f1 10px,
+            #86b5ec 10px,
+            #86b5ec 20px);
+    transition: width var(--swing-transition);
+}
+
+.swing-progress-indeterminate {
+    width: 100%;
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 40px 0;
+    }
+}
+
+/* ==========================================================================
+   10. State Classes
+   ========================================================================== */
+.swing-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.swing-loading {
+    cursor: wait;
+}
+
+.swing-dragging {
+    cursor: move;
+    opacity: 0.8;
+}
+
+.swing-resizing {
+    cursor: se-resize;
+}
+
+/* ==========================================================================
+   11. Animations
+   ========================================================================== */
+@keyframes swing-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes swing-slide-down {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes swing-slide-up {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   12. Print Styles
+   ========================================================================== */
+@media print {
+    .swing-window {
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .swing-button,
+    .swing-tab {
+        background: none;
+        border: 1px solid black;
+    }
+
+    .swing-dialog-overlay {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   13. Responsive Styles
+   ========================================================================== */
+@media (max-width: 768px) {
+    :root {
+        --swing-spacing-md: 6px;
+        --swing-spacing-lg: 12px;
+    }
+
+    .swing-window {
+        margin: var(--swing-spacing-sm);
+    }
+
+    .swing-menubar {
+        flex-wrap: wrap;
+    }
+
+    .swing-dialog {
+        width: 95%;
+        margin: var(--swing-spacing-sm);
+    }
+}
